@@ -1,1 +1,14 @@
 {% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="grid grid-cols-3 space-x-4">
+        <div class="col-span-3 sm:col-span-2">
+            {% include 'components/index_post_cards.html' %}
+        </div>
+        <div class="hidden sm:inline-block sm:col-span-1 bg-gray-100 rounded-md shadow-md p-4">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error optio vitae, a ducimus repudiandae incidunt quisquam at consequatur? Natus quam eaque sint aliquam laboriosam, harum veritatis saepe consequatur aspernatur nam?</p>
+        </div>
+    </div>
+
+{% endblock content %}
