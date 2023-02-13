@@ -1,0 +1,7 @@
+<ul class="list-reset mt-2">
+    {% for error in field.errors %}
+        <li class="bg-red-300 text-red-800 p-4 rounded-lg" role="alert">
+            {{ error }}
+        </li>
+    {% endfor %}
+</ul>
