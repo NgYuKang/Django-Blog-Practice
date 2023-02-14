@@ -38,3 +38,8 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-created_on"]
+
+    # def get_absolute_url(self):
+    #     return reverse('post-details', kwargs={
+    #         'slug': self.slug
+    #     })
