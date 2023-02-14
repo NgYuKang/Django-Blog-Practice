@@ -39,7 +39,20 @@ class Post(models.Model):
     class Meta:
         ordering = ["-created_on"]
 
-    # def get_absolute_url(self):
-    #     return reverse('post-details', kwargs={
-    #         'slug': self.slug
-    #     })
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={
+            'slug': self.slug
+        })
+
+
+class Comment(models.Model):
+    """
+    Represents a comment of a post
+    """
+    comment = models.TextField(verbose_name="Comment")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_on", ]

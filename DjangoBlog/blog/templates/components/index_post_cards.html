@@ -1,6 +1,6 @@
 {% for post in posts %}
 <div class="shadow-lg transition duration-500 hover:shadow-xl rounded-b-md">
-    <a href="#" class="cursor-pointer">
+    <a href="{{post.get_absolute_url}}" class="cursor-pointer">
         <div class="bg-white p-4 rounded-md">
             <!-- Title -->
             <h1 class="font-semibold text-lg mb-2">{{post.title}}</h1>
