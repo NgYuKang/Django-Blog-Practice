@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, View
 from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from django.contrib import messages
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.http import HttpResponseRedirect
+
+from .forms import CommentForm
 from .models import Post, Comment
 
 
@@ -36,6 +41,7 @@ class PostDetailView(ListView):
     model = Comment
     template_name = "post-detail.html"
     paginate_by = 5
+    comment_form = CommentForm
     detail_view_obj_name = "post"
 
     object = None
@@ -56,4 +62,27 @@ class PostDetailView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context[self.detail_view_obj_name] = self.object
+        context["comment_form"] = self.comment_form
         return context
+
+
+class CommentCreateView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+
+        print(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = self.request.user
+            print(kwargs.get("slug"))
+            post_id = kwargs.get("slug")
+            post = get_object_or_404(Post, slug=post_id)
+            comment.post = post
+            form.save(commit=True)
+        else:
+            print("failed")
+
+        return HttpResponseRedirect(reverse_lazy('post-detail', kwargs={
+            "slug": kwargs.get("slug"),
+        }))
