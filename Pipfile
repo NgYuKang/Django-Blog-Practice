@@ -8,6 +8,7 @@ django = "*"
 psycopg2 = "*"
 django-compressor = "*"
 django-ckeditor = "*"
+python-decouple = "*"
 
 [dev-packages]
 
