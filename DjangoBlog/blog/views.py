@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, ListView, View
+from django.views.generic import TemplateView, CreateView, ListView, View, DeleteView
 from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -86,6 +86,16 @@ class CommentCreateView(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse_lazy('post-detail', kwargs={
             "slug": kwargs.get("slug"),
         }))
+
+
+class CommentDeleteView(UserPassesTestMixin, DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        return self.get_object().post.get_absolute_url()
+
+    def test_func(self):
+        return self.request.user == self.get_object().user
 
 
 class PostCreateView(UserPassesTestMixin, CreateView):
