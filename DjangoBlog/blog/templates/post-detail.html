@@ -47,25 +47,31 @@
     </div>
 
     <div class="mt-4 w-full md:w-2/3 mx-auto">
-        <div class="bg-white rounded-md">
+        <div class="bg-white rounded-md shadow-lg transition duration-500 hover:shadow-xl ">
             <!-- Title -->
             <div class="px-4 py-2 flex justify-between items-center">
-                <h1 class="font-semibold text-lg mb-2">Comments ({{page_obj.paginator.count}})</h1>
+                <h1 class="font-semibold text-lg">Comments ({{page_obj.paginator.count}})</h1>
                 <button data-modal-target="commentModal" data-modal-toggle="commentModal" class="px-2 py-1 text-blue-700">
                     <div class="flex items-center">
                         <svg class="w-6 mr-2 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
-                        <span>New Comment</span>                    
+                        <span class="hidden md:block">New Comment</span>                    
                     </div>
                 </button>
             </div>
 
             {% for comment in comment_list %}
-            <div class="border-t px-6 py-2">
+            <div class="border-t px-6 py-2 last:rounded-b-md">
                 <h3 class="text-xl font-semibold text-gray-900">
                     {{comment.user}}
                 </h3>
+                <div class="flex items-center text-sm font-light py-1">
+                    <svg class="w-3 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{{comment.created_on|timesince}} ago</span>
+                </div>
                 <div class="py-4">
                     {{comment.comment}}
                 </div>
@@ -128,3 +134,4 @@
 
 
 {% endblock content %}
+
