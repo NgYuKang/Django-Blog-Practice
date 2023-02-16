@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Create Post</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="w-full lg:w-3/4 mx-auto">
+    <div class="p-6 bg-white rounded-md space-y-4">
+
+        <h1 class="text-xl font-semibold text-gray-900">New Post</h1>
+        {% include 'components/post_form.html' %}
+    </div>
+</div>
+
+{% endblock content %}

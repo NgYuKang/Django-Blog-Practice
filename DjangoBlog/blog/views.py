@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, ListView, View, DeleteView
+from django.views.generic import TemplateView, CreateView, ListView, View, DeleteView, UpdateView
 from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -98,18 +98,22 @@ class CommentDeleteView(UserPassesTestMixin, DeleteView):
         return self.request.user == self.get_object().user
 
 
+class PostDeleteView(UserPassesTestMixin, DeleteView):
+    model = Post
+
+    def get_success_url(self):
+        return reverse_lazy('index')
+
+    def test_func(self):
+        return self.request.user == self.get_object().author or self.request.user.is_staff
+
+
 class PostCreateView(UserPassesTestMixin, CreateView):
+    model = Post
     form_class = PostForm
-    template_name = "post_crud.html"
     context_object_name = "post"
     success_url = reverse_lazy('index')
-
-    # def post(self, request, *args, **kwargs):
-    #     print(request.POST)
-    #     test_form = PostForm(request.POST)
-    #     test_form.is_valid()
-    #     print(test_form.errors.as_data())
-    #     return super().post(request, *args, **kwargs)
+    template_name = "post_create.html"
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -117,6 +121,34 @@ class PostCreateView(UserPassesTestMixin, CreateView):
         post.author = self.request.user
         post = form.save(commit=True)
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('post-detail', kwargs={
+            'slug': self.object.slug
+        })
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class PostUpdateView(UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    context_object_name = "post"
+    success_url = reverse_lazy('index')
+    template_name = "post_edit.html"
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+
+        post.author = self.request.user
+        post = form.save(commit=True)
+        return super().form_valid(form)
+
+    def get_initial(self):
+        initials = super().get_initial()
+        initials["category"] = self.object.category
+        return initials
 
     def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={
