@@ -8,5 +8,6 @@ urlpatterns = [
     path('accounts/signup', views.RegisterView.as_view(), name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
 
-    path('posts/<slug:slug>/create-comment', views.CommentCreateView.as_view(), name='create-comment')
+    path('posts/create/', views.PostCreateView.as_view(), name='create-post'),
+    path('posts/<slug:slug>/create-comment', views.CommentCreateView.as_view(), name='create-comment'),
 ]

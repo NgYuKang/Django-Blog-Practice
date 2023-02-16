@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 
 # Create your models here.
@@ -38,6 +39,15 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-created_on"]
+
+    def save(self, *args, **kwargs):
+        if not self.pk or self._state.adding or self.title != Post.objects.get(pk=self.pk).title:
+            self.slug = slugify(self.title)
+        i = 1
+        while Post.objects.filter(slug=self.slug).exists():
+            self.slug = "-".join([slugify(self.title), str(i)])
+            i += 1
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={

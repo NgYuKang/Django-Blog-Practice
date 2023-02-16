@@ -4,11 +4,11 @@ from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from django.http import HttpResponseRedirect
 
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 from .models import Post, Comment
 
 
@@ -86,3 +86,32 @@ class CommentCreateView(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse_lazy('post-detail', kwargs={
             "slug": kwargs.get("slug"),
         }))
+
+
+class PostCreateView(UserPassesTestMixin, CreateView):
+    form_class = PostForm
+    template_name = "post_crud.html"
+    context_object_name = "post"
+    success_url = reverse_lazy('index')
+
+    # def post(self, request, *args, **kwargs):
+    #     print(request.POST)
+    #     test_form = PostForm(request.POST)
+    #     test_form.is_valid()
+    #     print(test_form.errors.as_data())
+    #     return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+
+        post.author = self.request.user
+        post = form.save(commit=True)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('post-detail', kwargs={
+            'slug': self.object.slug
+        })
+
+    def test_func(self):
+        return self.request.user.is_staff
