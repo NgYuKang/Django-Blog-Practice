@@ -26,7 +26,8 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')], default=["0.0.0.0", "127.0.0.1"])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')],
+                       default=["0.0.0.0", "127.0.0.1"])
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -145,6 +146,15 @@ AUTH_USER_MODEL = 'blog.User'
 
 # CKEDITOR
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'allowedContent': True,
+        'width': 'auto',
+    },
+}
 
 STATIC_ROOT = BASE_DIR / 'static_production/'
 
