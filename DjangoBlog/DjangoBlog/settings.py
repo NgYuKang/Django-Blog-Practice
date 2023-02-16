@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.1.141"]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=list, default=["0.0.0.0"])
 
 INTERNAL_IPS = [
     "127.0.0.1",
