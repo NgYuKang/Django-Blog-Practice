@@ -1520,6 +1520,11 @@ input:checked + .toggle-bg {
   background-color: rgb(250 202 21 / var(--tw-bg-opacity));
 }
 
+.bg-gray-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -2082,6 +2087,14 @@ input:checked + .toggle-bg {
     display: block;
   }
 
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
   .md\:h-40 {
     height: 10rem;
   }
@@ -2100,6 +2113,10 @@ input:checked + .toggle-bg {
 
   .md\:w-2\/3 {
     width: 66.666667%;
+  }
+
+  .md\:justify-start {
+    justify-content: flex-start;
   }
 
   .md\:space-y-6 > :not([hidden]) ~ :not([hidden]) {
