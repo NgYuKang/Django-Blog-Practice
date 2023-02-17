@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>About Me</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="w-full lg:w-3/4 mx-auto">
+    <div class="p-6 bg-white rounded-md space-y-6">
+
+        <h1 class="text-xl font-semibold text-gray-900">About Me and The Blog</h1>
+        <div>
+            {{ about.body|safe }}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

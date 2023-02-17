@@ -4,6 +4,8 @@ from . import views
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
+    path('about/', views.AboutPageView.as_view(), name='about'),
+
     path('accounts/signup', views.RegisterView.as_view(), name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
 

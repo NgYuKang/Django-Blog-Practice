@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import Count
 
 from .forms import CommentForm, PostForm
-from .models import Post, Comment, Category
+from .models import Post, Comment, Category, AboutPageBody
 
 
 # Create your views here.
@@ -27,7 +27,6 @@ class IndexView(ListView):
         if query:
             return self.model.objects.filter(category=query)
         return self.model.objects.all()
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -169,3 +168,13 @@ class PostUpdateView(UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         return self.request.user.is_staff
+
+
+class AboutPageView(TemplateView):
+    template_name = 'about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['about'] = AboutPageBody.load()
+
+        return context

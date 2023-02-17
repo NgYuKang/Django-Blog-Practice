@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import User, Post, Category, Comment
+from .models import User, Post, Category, Comment, AboutPageBody
 
 
 # Register your models here.
@@ -26,3 +26,4 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category)
 admin.site.register(Comment)
+admin.site.register(AboutPageBody)

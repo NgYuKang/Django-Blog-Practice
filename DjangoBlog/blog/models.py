@@ -8,6 +8,20 @@ from django.template.defaultfilters import slugify
 
 # Create your models here.
 
+class SingletonModel(models.Model):
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+    class Meta:
+        abstract = True
+
 class User(AbstractUser):
     pass
 
@@ -66,3 +80,9 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-created_on", ]
+
+class AboutPageBody(SingletonModel):
+    body = RichTextUploadingField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "About Page"
