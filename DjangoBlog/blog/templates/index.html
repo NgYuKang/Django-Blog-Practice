@@ -11,7 +11,24 @@
             {% include 'components/index_post_cards.html' %}
         </div>
         <div class="w-1/3 hidden sm:block bg-white rounded-md shadow-md p-4 h-full">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error optio vitae, a ducimus repudiandae incidunt quisquam at consequatur? Natus quam eaque sint aliquam laboriosam, harum veritatis saepe consequatur aspernatur nam?</p>
+            <h3 class="font-semibold text-lg mb-2">Categories</h3>
+            <div class="flex flex-wrap">
+                {% for category in categories %}
+                    {% if selected_category == category.name %}
+                    <div class="flex items-center text-white bg-slate-700 rounded-full px-4 py-1 m-2">
+                        <span>{{category}} ({{category.num_post}})</span>             
+                    </div>
+                    {% else %}
+                    <a href="{% url 'index' %}?category={{category}}">
+                        <div class="flex items-center text-white bg-slate-500 hover:bg-slate-700 transition ease-in-out rounded-full px-4 py-1 m-2">
+                            <span>{{category}} ({{category.num_post}})</span>             
+                        </div>
+                    </a>
+                {% endif %}
+                {% empty %}
+                <p>There are currently no category.</p>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

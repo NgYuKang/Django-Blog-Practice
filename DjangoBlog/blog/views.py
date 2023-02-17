@@ -8,8 +8,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from django.http import HttpResponseRedirect
 
+from django.db.models import Count
+
 from .forms import CommentForm, PostForm
-from .models import Post, Comment
+from .models import Post, Comment, Category
 
 
 # Create your views here.
@@ -19,6 +21,19 @@ class IndexView(ListView):
     model = Post
     context_object_name = "posts"
     paginate_by = 5
+
+    def get_queryset(self):
+        query = self.request.GET.get('category')
+        if query:
+            return self.model.objects.filter(category=query)
+        return self.model.objects.all()
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.annotate(num_post=Count('post'))
+        context['selected_category'] = self.request.GET.get('category', None)
+        return context
 
 
 class RegisterView(CreateView):
