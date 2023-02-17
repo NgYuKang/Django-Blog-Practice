@@ -15,9 +15,11 @@
             <div class="flex flex-wrap">
                 {% for category in categories %}
                     {% if selected_category == category.name %}
+                    <a href="{% url 'index' %}">
                     <div class="flex items-center text-white bg-slate-700 rounded-full px-4 py-1 m-2">
                         <span>{{category}} ({{category.num_post}})</span>             
                     </div>
+                    </a>
                     {% else %}
                     <a href="{% url 'index' %}?category={{category}}">
                         <div class="flex items-center text-white bg-slate-500 hover:bg-slate-700 transition ease-in-out rounded-full px-4 py-1 m-2">
