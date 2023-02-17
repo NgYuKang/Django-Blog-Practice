@@ -86,17 +86,14 @@ class CommentCreateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
 
-        print(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = self.request.user
-            print(kwargs.get("slug"))
+
             post_id = kwargs.get("slug")
             post = get_object_or_404(Post, slug=post_id)
             comment.post = post
             form.save(commit=True)
-        else:
-            print("failed")
 
         return HttpResponseRedirect(reverse_lazy('post-detail', kwargs={
             "slug": kwargs.get("slug"),
