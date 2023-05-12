@@ -1,0 +1,11 @@
+.idea/.gitignore
+.idea/DjangoBlogPracticeNew.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.env
+node_modules
+data
+.venv
+.idea
